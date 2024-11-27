@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ekolojik Kredi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="landing-page">
+        <div id="left-section">
+            <h1>Ekolojik Kredi</h1>
+            <img src="logo.png" alt="Ekolojik Kredi Logo">
+        </div>
+        <div id="right-section">
+            <button id="registerBtn">Kayıt Ol</button>
+            <button id="loginBtn">Giriş Yap</button>
+            <button id="dataEntryBtn">Veri Gir</button>
+        </div>
+    </div>
+
+    <div id="registerForm" style="display:none;">
+        <h2>Kayıt Ol</h2>
+        <form id="registerForm">
+            <input type="text" id="name" placeholder="Adınız" required>
+            <input type="text" id="school" placeholder="Okul" required>
+            <input type="email" id="email" placeholder="E-posta" required>
+            <input type="password" id="password" placeholder="Şifre" required>
+            <button type="button" id="submitRegister">Kayıt Ol</button>
+        </form>
+    </div>
+
+    <div id="loginForm" style="display:none;">
+        <h2>Giriş Yap</h2>
+        <form id="loginForm">
+            <input type="email" id="loginEmail" placeholder="E-posta" required>
+            <input type="password" id="loginPassword" placeholder="Şifre" required>
+            <button type="button" id="submitLogin">Giriş Yap</button>
+        </form>
+    </div>
+
+    <div id="dataEntryForm" style="display:none;">
+        <h2>Atık Veri Girişi</h2>
+        <input type="text" id="wasteType" placeholder="Atık Türü (Cam, Plastik, vb.)">
+        <input type="number" id="amount" placeholder="Miktar (kg)" min="0" required>
+        <button type="button" id="submitData">Veri Kaydet</button>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
