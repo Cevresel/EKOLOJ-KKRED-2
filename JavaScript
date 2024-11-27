@@ -1,0 +1,101 @@
+// app.js
+
+// Firebase İmportları (Firebase Config ve Firestore'a bağlanmak için)
+const firebaseConfig = {
+    apiKey: "your-api-key",
+    authDomain: "your-auth-domain",
+    projectId: "your-project-id",
+    storageBucket: "your-storage-bucket",
+    messagingSenderId: "your-sender-id",
+    appId: "your-app-id",
+    measurementId: "your-measurement-id"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+// Kayıt Ol Butonuna Tıklandığında
+document.getElementById('registerBtn').addEventListener('click', function() {
+    document.getElementById('registerForm').style.display = 'block';
+});
+
+// Giriş Yap Butonuna Tıklandığında
+document.getElementById('loginBtn').addEventListener('click', function() {
+    document.getElementById('loginForm').style.display = 'block';
+});
+
+// Veri Gir Butonuna Tıklandığında
+document.getElementById('dataEntryBtn').addEventListener('click', function() {
+    document.getElementById('dataEntryForm').style.display = 'block';
+});
+
+// Kayıt Olma İşlemi
+document.getElementById('submitRegister').addEventListener('click', function() {
+    const email = document.getElementById('email').value;
+    const password = document.getElement// Kayıt Olma İşlemi Devamı
+document.getElementById('submitRegister').addEventListener('click', function() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Firebase Auth ile kullanıcı kaydetme
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+        // Kayıt başarılı olursa, kullanıcıyı giriş sayfasına yönlendiriyoruz
+        alert("Kayıt başarılı!");
+        document.getElementById('registerForm').style.display = 'none';
+    })
+    .catch((error) => {
+        // Hata durumunda, hata mesajını gösteriyoruz
+        const errorMessage = error.message;
+        alert("Hata: " + errorMessage);
+    });
+});
+
+// Giriş Yapma İşlemi
+document.getElementById('submitLogin').addEventListener('click', function() {
+    const loginEmail = document.getElementById('loginEmail').value;
+    const loginPassword = document.getElementById('loginPassword').value;
+
+    // Firebase Auth ile giriş yapma
+    firebase.auth().signInWithEmailAndPassword(loginEmail, loginPassword)
+    .then((userCredential) => {
+        // Giriş başarılı olursa, kullanıcıyı veri giriş ekranına yönlendiriyoruz
+        alert("Giriş başarılı!");
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('dataEntryForm').style.display = 'block';
+    })
+    .catch((error) => {
+        // Hata durumunda, hata mesajını gösteriyoruz
+        const errorMessage = error.message;
+        alert("Hata: " + errorMessage);
+    });
+});
+
+// Veri Kaydetme İşlemi
+document.getElementById('submitData').addEventListener('click', function() {
+    const wasteType = document.getElementById('wasteType').value;
+    const amount = document.getElementById('amount').value;
+
+    if (wasteType === "" || amount === "") {
+        alert("Lütfen tüm alanları doldurun.");
+        return;
+    }
+
+    // Firebase Firestore'a veri kaydetme
+    const user = firebase.auth().currentUser;
+    if (user) {
+        const userRef = firebase.firestore().collection("users").doc(user.uid).collection("wasteData").add({
+            wasteType: wasteType,
+            amount: amount,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        })
+        .then(() => {
+            alert("Veri başarıyla kaydedildi!");
+            document.getElementById('dataEntryForm').reset(); // Formu sıfırlıyoruz
+        })
+        .catch((error) => {
+            alert("Veri kaydederken bir hata oluştu: " + error.message);
+        });
+    } else {
+        alert("Öncelikle giriş yapmalısınız.");
+    }
+});
